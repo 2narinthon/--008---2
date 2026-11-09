@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap');
+
+:root {
+    --bg-color: #03030a;
+    --neon-cyan: #00f3ff;
+    --neon-pink: #ff007f;
+    --neon-purple: #8a2be2;
+    --glass-bg: rgba(16, 16, 40, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: #ffffff;
+    font-family: 'Kanit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* พื้นหลังอวกาศและตารางไซเบอร์ */
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.15) 0%, transparent 60%),
+        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    animation: cyberGrid 20s linear infinite;
+}
+
+/* เอฟเฟกต์พื้นหลังเคลื่อนไหว */
+@keyframes cyberGrid {
+    0% { background-position: 0 0, 0 0, 0 0; }
+    100% { background-position: 0 0, 0 400px, 400px 0; }
+}
+
+/* ดวงดาว/แสงนีออนลอยในอวกาศ */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    animation: floatGlow 10s infinite alternate;
+}
+body::before {
+    background: var(--neon-cyan);
+    top: -100px;
+    left: -100px;
+    opacity: 0.3;
+}
+body::after {
+    background: var(--neon-pink);
+    bottom: -100px;
+    right: -100px;
+    opacity: 0.3;
+}
+
+@keyframes floatGlow {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.2); }
+}
+
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 50px auto;
+    text-align: center;
+    z-index: 1;
+}
+
+/* สไตล์หัวข้อหลัก */
+.cyber-title {
+    font-family: 'Orbitron', 'Kanit', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-purple);
+    animation: pulseText 3s infinite alternate;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #a0a0c0;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+@keyframes pulseText {
+    0% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
+    100% { text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-purple), 0 0 50px var(--neon-cyan); }
+}
+
+/* ปุ่มในหน้าแรก (Index) */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.cyber-btn-card {
+    background: var(--glass-bg);
+    border: 2px solid var(--neon-cyan);
+    border-radius: 15px;
+    padding: 40px 20px;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cyber-btn-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 30px rgba(255, 0, 127, 0.6), inset 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.cyber-btn-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--neon-cyan);
+    transition: 0.3s;
+}
+
+.cyber-btn-card:hover h2 {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+.cyber-btn-card .icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px var(--neon-cyan));
+}
+
+/* การ์ดเนื้อหาในหน้าย่อย (Page 1, 2, 3) */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.info-card {
+    background: var(--glass-bg);
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    border-left: 5px solid var(--neon-cyan);
+    border-radius: 10px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    position: relative;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-left-color: var(--neon-pink);
+    box-shadow: 0 10px 25px rgba(0, 243, 255, 0.15);
+}
+
+.info-card h3 {
+    color: var(--neon-cyan);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-card p {
+    color: #d0d0e0;
+    line-height: 1.7;
+    font-weight: 300;
+}
+
+/* แถบปุ่มนำทาง (Navigation) */
+.nav-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.nav-btn {
+    background: transparent;
+    color: #fff;
+    font-family: 'Kanit', sans-serif;
+    font-size: 1rem;
+    padding: 12px 25px;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: var(--neon-cyan);
+    color: #000;
+    font-weight: 600;
+    box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.nav-btn.home-btn {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+}
+
+.nav-btn.home-btn:hover {
+    background: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 20px var(--neon-pink);
+}

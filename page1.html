@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าที่ 1 - AI ออกแบบ UI/UX และสร้างสื่อกราฟิก</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ปรับหน้าให้เลื่อนดูเนื้อหาเยอะๆ ได้อย่างสวยงาม */
+        body {
+            justify-content: flex-start;
+            padding: 40px 0 60px 0;
+        }
+
+        /* แอนิเมชันเปิดตัวเนื้อหา */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 50px;
+            color: var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        /* แถบสถิติแบบไซเบอร์ (Cyber HUD Stats) */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 45px;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stat-box {
+            background: rgba(10, 12, 30, 0.75);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .stat-box:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
+            transform: scale(1.03);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        /* อัปเกรดการ์ดเนื้อหาหลัก + เอฟเฟกต์เลเซอร์สแกน */
+        .info-card {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeInUp 0.8s ease forwards;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* เส้นเลเซอร์วิ่งสแกนในการ์ด */
+        .info-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            box-shadow: 0 0 15px var(--neon-cyan);
+            opacity: 0.4;
+            animation: scanline 6s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        /* แยกสีการ์ดแต่ละใบเวลาเอาเมาส์ไปวาง */
+        .card-1:hover {
+            border-left-color: #00f3ff;
+            box-shadow: 0 10px 35px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+        .card-2:hover {
+            border-left-color: #bc13fe;
+            box-shadow: 0 10px 35px rgba(188, 19, 254, 0.3), inset 0 0 20px rgba(188, 19, 254, 0.1);
+        }
+        .card-3:hover {
+            border-left-color: #ff007f;
+            box-shadow: 0 10px 35px rgba(255, 0, 127, 0.3), inset 0 0 20px rgba(255, 0, 127, 0.1);
+        }
+
+        /* รายการฟีเจอร์ย่อยในการ์ด */
+        .feature-list {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 10px;
+            color: #d8d8f0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feature-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--neon-pink);
+            font-weight: bold;
+        }
+
+        /* ป้ายกำกับแอป/โปรแกรม AI (AI Tool Badges) */
+        .tools-box {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(0, 243, 255, 0.3);
+        }
+
+        .tools-title {
+            font-size: 0.85rem;
+            color: #99aabb;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .ai-badge {
+            background: rgba(0, 243, 255, 0.08);
+            border: 1px solid rgba(0, 243, 255, 0.5);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 400;
+            transition: 0.25s;
+            cursor: default;
+        }
+
+        .ai-badge:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 0 12px var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+
+        /* โซนตารางแนะนำโปรแกรม AI ยอดนิยมด้านล่าง */
+        .showcase-section {
+            margin: 40px 0 50px 0;
+            background: rgba(12, 14, 34, 0.7);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.15);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .showcase-title {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+
+        .app-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .app-item:hover {
+            background: rgba(188, 19, 254, 0.15);
+            border-color: var(--neon-pink);
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.25);
+        }
+
+        .app-item h4 {
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .app-item span {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: var(--neon-pink);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .app-item p {
+            font-size: 0.88rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="module-badge">⚡ SYSTEM MODULE 01</div>
+        <h1 class="cyber-title">AI ออกแบบ UI/UX และสร้างสื่อกราฟิก</h1>
+        <p class="subtitle">ยกระดับการออกแบบเว็บไซต์ให้รวดเร็ว สวยล้ำ และตรงใจผู้ใช้งานด้วยพลังปัญญาประดิษฐ์</p>
+
+        <!-- แถบสถิติแสดงประสิทธิภาพของ AI -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-number">10X</div>
+                <div class="stat-label">สร้างโครงร่างเว็บเร็วขึ้นกว่าเดิม</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">รูปภาพกราฟิกมีเอกลักษณ์ไม่ซ้ำใคร</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">92%</div>
+                <div class="stat-label">ความแม่นยำในการทำนายจุดสายตาผู้ใช้</div>
+            </div>
+        </div>
+
+        <!-- การ์ดเนื้อหาหลัก 3 หัวข้อ -->
+        <div class="content-grid">
+            
+            <!-- หัวข้อย่อย 1 -->
+            <div class="info-card card-1">
+                <div>
+                    <h3>📐 1. AI Wireframing & UI Design</h3>
+                    <p><strong>การสร้างโครงร่างและหน้าตาเว็บอัตโนมัติ:</strong> เปลี่ยนข้อความคำสั่ง (Text Prompt) หรือภาพวาดสเก็ตช์บนกระดาษ ให้กลายเป็นโครงร่างเว็บไซต์ (Wireframe) และ UI ต้นแบบที่พร้อมใช้งานภายในไม่กี่วินาที</p>
+                    <ul class="feature-list">
+                        <li><strong>Text-to-UI:</strong> พิมพ์คอนเซปต์เว็บที่ต้องการ แล้วให้ AI จัดวาง Layout หน้าเว็บให้อัตโนมัติ</li>
+                        <li><strong>Sketch-to-Design:</strong> ถ่ายรูปภาพวาดมือบนกระดาษ แปลงเป็นปุ่มและกล่องข้อความดิจิทัล</li>
+                        <li><strong>AI Color & Font:</strong> จับคู่โทนสี (Color Palette) และฟอนต์ที่เข้ากับแบรนด์อย่างลงตัว</li>
+                    </ul>
+                </div>
+                <div class="tools-box">
+                    <div class="tools-title">🛠️ โปรแกรม AI ที่นิยมใช้:</div>
+                    <div class="badge-container">
+                        <span class="ai-badge">Figma AI</span>
+                        <span class="ai-badge">Uizard</span>
+                        <span class="ai-badge">Galileo AI</span>
+                        <span class="ai-badge">Framer AI</span>
+                        <span class="ai-badge">Relume</span>
+                        <span class="ai-badge">Khroma (จับคู่สี)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- หัวข้อย่อย 2 -->
+            <div class="info-card card-2">
+                <div>
+                    <h3>🌌 2. AI Image & Graphic Gen</h3>
+                    <p><strong>การเจนภาพประกอบและกราฟิก 3D:</strong> บอกลาการหาภาพ Stock แบบเดิมๆ เพราะ AI สามารถเนรมิตภาพแบนเนอร์ ไอคอนเวกเตอร์ และโมเดล 3 มิติที่ตรงกับธีมเว็บไซต์ได้แบบไร้ขีดจำกัด</p>
+                    <ul class="feature-list">
+                        <li><strong>Banner & Hero Image:</strong> สร้างภาพพื้นหลังเว็บไซต์ความละเอียดสูงตามสไตล์ที่กำหนด</li>
+                        <li><strong>Vector & Icon Gen:</strong> สร้างโลโก้และไอคอนนามสกุล SVG ที่ย่อ-ขยายได้ไม่แตก</li>
+                        <li><strong>AI Photo Editing:</strong> ลบพื้นหลัง (Remove BG), ขยายภาพ (Upscale 4K) และเติมภาพอัตโนมัติ</li>
+                    </ul>
+                </div>
+                <div class="tools-box">
+                    <div class="tools-title">🛠️ โปรแกรม AI ที่นิยมใช้:</div>
+                    <div class="badge-container">
+                        <span class="ai-badge">Midjourney v6</span>
+                        <span class="ai-badge">DALL-E 3</span>
+                        <span class="ai-badge">Adobe Firefly</span>
+                        <span class="ai-badge">Leonardo.ai</span>
+                        <span class="ai-badge">Recraft (สร้างไอคอน SVG)</span>
+                        <span class="ai-badge">Spline AI (3D)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- หัวข้อย่อย 3 -->
+            <div class="info-card card-3">
+                <div>
+                    <h3>👁️ 3. Attention & UX Analysis</h3>
+                    <p><strong>การวิเคราะห์จุดสนใจและพฤติกรรมผู้ใช้:</strong> ใช้ระบบ Machine Learning จำลองสายตามนุษย์เพื่อวิเคราะห์ว่าผู้ชมจะมองส่วนใดของเว็บไซต์เป็นจุดแรก ก่อนที่จะเปิดใช้งานจริง</p>
+                    <ul class="feature-list">
+                        <li><strong>AI Heatmap:</strong> สร้างแผนที่ความร้อนสีแดง-เขียว เพื่อดูจุดที่ดึงดูดสายตามากที่สุด</li>
+                        <li><strong>CTA Optimization:</strong> ช่วยตัดสินใจวางปุ่มสำคัญ (เช่น ปุ่มสั่งซื้อ/สมัครสมาชิก) ในตำแหน่งที่คนคลิกมากที่สุด</li>
+                        <li><strong>UX Persona & Accessibility:</strong> จำลองกลุ่มเป้าหมายและตรวจเช็คความคมชัดของตัวหนังสือ</li>
+                    </ul>
+                </div>
+                <div class="tools-box">
+                    <div class="tools-title">🛠️ โปรแกรม AI ที่นิยมใช้:</div>
+                    <div class="badge-container">
+                        <span class="ai-badge">Attention Insight</span>
+                        <span class="ai-badge">3M VAS</span>
+                        <span class="ai-badge">Neurons AI</span>
+                        <span class="ai-badge">Hotjar AI</span>
+                        <span class="ai-badge">Maze AI</span>
+                        <span class="ai-badge">QoQo.ai</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- โซนพิเศษ: เจาะลึกโปรแกรม AI ยอดฮิตสำหรับนักออกแบบเว็บ -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🚀 เจาะลึก 4 แอปพลิเคชัน AI เปลี่ยนโลกการออกแบบเว็บ</h2>
+            <div class="app-grid">
+                <div class="app-item">
+                    <span>สร้าง UI อัตโนมัติ</span>
+                    <h4>Uizard Autodesigner</h4>
+                    <p>เพียงพิมพ์ข้อความอธิบายเว็บที่อยากได้ หรืออัปโหลดภาพถ่ายหน้าจอเว็บที่ชอบ AI จะแปลงเป็นหน้าเว็บที่แก้ไขต่อได้ทันที</p>
+                </div>
+                <div class="app-item">
+                    <span>สร้างแผนผังเว็บ</span>
+                    <h4>Relume AI Site Builder</h4>
+                    <p>ช่วยวางโครงสร้างเว็บไซต์ (Sitemap) และสร้าง Wireframe ทั้งเว็บไซต์พร้อมเนื้อหาจำลองภายในเวลาไม่ถึง 2 นาที</p>
+                </div>
+                <div class="app-item">
+                    <span>สร้างภาพ & เวกเตอร์</span>
+                    <h4>Recraft.ai & Midjourney</h4>
+                    <p>สร้างชุดไอคอน ภาพประกอบแบบไร้พื้นหลัง และภาพกราฟิก 3D ที่มีโทนสีเดียวกันทั้งเว็บไซต์ได้อย่างแม่นยำ</p>
+                </div>
+                <div class="app-item">
+                    <span>วิเคราะห์สายตาผู้ใช้</span>
+                    <h4>Attention Insight</h4>
+                    <p>อัปโหลดภาพดีไซน์เว็บเข้าไป AI จะสแกนและแสดงผลเป็น Heatmap ทันทีว่าดีไซน์ของเรามีจุดไหนที่รกหรือดึงดูดสายตา</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ปุ่มนำทาง -->
+        <div class="nav-container">
+            <a href="index.html" class="nav-btn home-btn">🏠 กลับหน้าแรก (Index)</a>
+            <a href="page1.html" class="nav-btn active">1. AI ออกแบบ UI/UX</a>
+            <a href="page2.html" class="nav-btn">2. AI เขียนโค้ด ➡️</a>
+            <a href="page3.html" class="nav-btn">3. AI เนื้อหา & SEO ➡️</a>
+        </div>
+    </div>
+
+</body>
+</html>

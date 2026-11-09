@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Web Creation - Cyber Space</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ปรับโครงสร้างหน้าแรกให้เลื่อนขึ้น-ลงได้ */
+        body {
+            display: block;
+        }
+
+        /* สไตล์สำหรับ Banner ด้านหลังที่จะจางหายไปเมื่อเลื่อนลง */
+        .banner-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: url('image/banner.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.85; /* ความชัดตอนอยู่ด้านบนสุด */
+            z-index: -1;
+            pointer-events: none;
+            /* ไล่ขอบด้านล่างให้กลืนกับพื้นหลังเอฟเฟกต์ */
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            
+            /* CSS เอฟเฟกต์ค่อยๆ จางหายตามการเลื่อนเมาส์ (Scroll-Driven Animation) */
+            animation: fadeOutBanner linear forwards;
+            animation-timeline: scroll();
+            animation-range: 0vh 75vh;
+        }
+
+        @keyframes fadeOutBanner {
+            0% {
+                opacity: 0.85;
+                transform: scale(1);
+                filter: blur(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.08);
+                filter: blur(8px);
+            }
+        }
+
+        /* ส่วนที่ 1: ด้านบนสุดโชว์พื้นหลัง Banner */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 60px;
+            position: relative;
+        }
+
+        /* ปุ่มบอกให้เลื่อนลง */
+        .scroll-down-btn {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', 'Kanit', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            padding: 12px 30px;
+            background: rgba(3, 3, 10, 0.75);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            backdrop-filter: blur(8px);
+            animation: bounceGlow 2s infinite alternate;
+            transition: 0.3s;
+        }
+
+        .scroll-down-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 0 35px var(--neon-cyan);
+        }
+
+        @keyframes bounceGlow {
+            0% { transform: translateY(0); box-shadow: 0 0 15px rgba(0, 243, 255, 0.4); }
+            100% { transform: translateY(-12px); box-shadow: 0 0 30px rgba(255, 0, 127, 0.8); border-color: var(--neon-pink); }
+        }
+
+        /* ส่วนที่ 2: โซนเนื้อหา 3 ปุ่มเมื่อเลื่อนลงมา */
+        .menu-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 0;
+        }
+
+        /* เอฟเฟกต์ลำแสงวิ่งผ่านปุ่มเมื่อวางเมาส์ */
+        .cyber-btn-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.6s;
+        }
+        .cyber-btn-card:hover::before {
+            left: 100%;
+        }
+
+        .cyber-btn-card .icon {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        /* ================= สีของปุ่มที่ 1 (สีฟ้า Cyan) ================= */
+        .card-cyan:hover {
+            background: linear-gradient(145deg, rgba(0, 243, 255, 0.35), rgba(16, 16, 40, 0.85));
+            border-color: #00f3ff;
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.7), inset 0 0 25px rgba(0, 243, 255, 0.4);
+        }
+        .card-cyan:hover h2 {
+            color: #ffffff;
+            text-shadow: 0 0 10px #00f3ff, 0 0 25px #00f3ff;
+        }
+        .card-cyan:hover .icon {
+            transform: scale(1.18);
+            filter: drop-shadow(0 0 20px #00f3ff);
+        }
+
+        /* ================= สีของปุ่มที่ 2 (สีม่วง Purple) ================= */
+        .card-purple:hover {
+            background: linear-gradient(145deg, rgba(188, 19, 254, 0.35), rgba(16, 16, 40, 0.85));
+            border-color: #bc13fe;
+            box-shadow: 0 0 35px rgba(188, 19, 254, 0.7), inset 0 0 25px rgba(188, 19, 254, 0.4);
+        }
+        .card-purple:hover h2 {
+            color: #ffffff;
+            text-shadow: 0 0 10px #bc13fe, 0 0 25px #bc13fe;
+        }
+        .card-purple:hover .icon {
+            transform: scale(1.18);
+            filter: drop-shadow(0 0 20px #bc13fe);
+        }
+
+        /* ================= สีของปุ่มที่ 3 (สีชมพู Pink) ================= */
+        .card-pink:hover {
+            background: linear-gradient(145deg, rgba(255, 0, 127, 0.35), rgba(16, 16, 40, 0.85));
+            border-color: #ff007f;
+            box-shadow: 0 0 35px rgba(255, 0, 127, 0.7), inset 0 0 25px rgba(255, 0, 127, 0.4);
+        }
+        .card-pink:hover h2 {
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff007f, 0 0 25px #ff007f;
+        }
+        .card-pink:hover .icon {
+            transform: scale(1.18);
+            filter: drop-shadow(0 0 20px #ff007f);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- เลเยอร์ภาพ Banner ด้านหลัง (จะค่อยๆ จางหายเมื่อเลื่อนลง) -->
+    <div class="banner-bg"></div>
+
+    <!-- ส่วนบนสุด: โชว์ภาพ Banner เต็มจอ -->
+    <section class="hero-section">
+        <a href="#main-menu" class="scroll-down-btn">▼ เลื่อนลงเพื่อเข้าสู่เนื้อหา ▼</a>
+    </section>
+
+    <!-- ส่วนด้านล่าง: เมื่อเลื่อนลงมาจะเจอ 3 ปุ่มพร้อมเอฟเฟกต์อวกาศไซเบอร์ -->
+    <section id="main-menu" class="menu-section">
+        <div class="container">
+            <div style="letter-spacing: 5px; color: var(--neon-pink); font-family: 'Orbitron'; margin-bottom: 10px;">NEXT-GEN TECHNOLOGY</div>
+            <h1 class="cyber-title">การประยุกต์ใช้ AI ในการสร้างเว็บไซต์</h1>
+            <p class="subtitle">สำรวจจักรวาลแห่งปัญญาประดิษฐ์ที่เข้ามาปฏิวัติวงการออกแบบ พัฒนา และจัดการเว็บไซต์ยุคใหม่</p>
+
+            <div class="menu-grid">
+                <!-- ปุ่มที่ 1 (สีฟ้า) -->
+                <a href="Page1.html" class="cyber-btn-card card-cyan">
+                    <div class="icon">🎨</div>
+                    <h2>01. AI ออกแบบ UI/UX<br>และสร้างสื่อกราฟิก</h2>
+                    <p>เนรมิตโครงร่างเว็บไซต์และภาพประกอบสุดล้ำด้วยพลังแห่ง AI</p>
+                </a>
+
+                <!-- ปุ่มที่ 2 (สีม่วง) -->
+                <a href="Page2.html" class="cyber-btn-card card-purple">
+                    <div class="icon">💻</div>
+                    <h2>02. AI ช่วยเขียนโค้ด<br>และพัฒนาเว็บไซต์</h2>
+                    <p>เปลี่ยนดีไซน์เป็นโค้ดและตรวจจับบั๊กอัตโนมัติอย่างแม่นยำ</p>
+                </a>
+
+                <!-- ปุ่มที่ 3 (สีชมพู) -->
+                <a href="Page3.html" class="cyber-btn-card card-pink">
+                    <div class="icon">🚀</div>
+                    <h2>03. AI สร้างเนื้อหา<br>และปรับแต่ง SEO อัจฉริยะ</h2>
+                    <p>ดันเว็บไซต์ติดหน้าแรกและดูแลผู้ใช้ด้วยผู้ช่วยอัจฉริยะ</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
